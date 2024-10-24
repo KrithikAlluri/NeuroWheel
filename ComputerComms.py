@@ -36,15 +36,20 @@ def send_to_rpi(arcade_y, arcade_x):
 if __name__ == "__main__":
     try:
         while True:
-            # Example tank drive values (you can replace these with actual inputs)
-            left_tank = float(input("Enter left tank value (0 to 5): "))
-            right_tank = float(input("Enter right tank value (0 to 5): "))
+            # # Example tank drive values (you can replace these with actual inputs)
+            # left_tank = float(input("Enter left tank value (0 to 5): "))
+            # right_tank = float(input("Enter right tank value (0 to 5): "))
+            #
+            # # Convert tank drive to arcade drive
+            # arcade_y, arcade_x = tank_to_arcade(left_tank, right_tank)
 
-            # Convert tank drive to arcade drive
-            arcade_y, arcade_x = tank_to_arcade(left_tank, right_tank)
 
+            # arcade values
+            front_tank = float(input("Enter turn tank value (0 to 5): "))
+            turn_tank = float(input("Enter front tank value (0 to 5): "))
             # Send the converted arcade values to the Raspberry Pi
-            send_to_rpi(arcade_y, arcade_x)
+            send_to_rpi(front_tank, turn_tank)
 
     except KeyboardInterrupt:
         print("Program terminated")
+

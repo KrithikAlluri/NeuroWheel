@@ -43,7 +43,7 @@ def map_wasd_to_arcade(keys):
 
     # Forward/Backward: W to go forward, S to go backward
     if keys[pygame.K_w]:
-        arcade_y = 4.5  # Full forward
+        arcade_y = 5  # Full forward
     elif keys[pygame.K_s]:
         arcade_y = 0.5  # Full backward
 
@@ -60,7 +60,7 @@ def draw_wheelchair(x, y, angle):
     # Draw the wheelchair as a circle
     pygame.draw.circle(screen, RED, (int(x), int(y)), wheelchair_radius)
 
-    # Draw text inside the circle (indicating the front of the wheelchair)
+    # Draw text inside the circle saadadad(indicating the front of the wheelchair)
     font = pygame.font.Font(None, 24)
     text = font.render('Front', True, BLACK)
     text_rect = text.get_rect(center=(x, y))
@@ -70,6 +70,24 @@ def draw_wheelchair(x, y, angle):
     front_x = x + wheelchair_radius * math.cos(math.radians(angle))
     front_y = y - wheelchair_radius * math.sin(math.radians(angle))
     pygame.draw.line(screen, BLACK, (x, y), (front_x, front_y), 3)
+
+
+def display_voltage_values(arcade_y, arcade_x):
+    # font = pygame.font.SysFont(None,size = 36)
+
+    # Format the text to show the voltage values for turning and forward movement
+    voltage_text = f"Forward: {arcade_y:.1f}V, Turn: {arcade_x:.1f}V"
+
+    # Render the text
+    # text_surface = font.render(voltage_text, True, BLACK)
+    #
+    # # Position the text in the top right corner
+    # text_rect = text_surface.get_rect(topright=(SCREEN_WIDTH - 10, 10))
+    #
+    # # Draw the text on the screen
+    # screen.blit(text_surface, text_rect)
+    pygame.display.set_caption(voltage_text)
+
 
 # Function to update the position based on the angle and speed
 def update_position(x, y, angle, speed):
@@ -111,13 +129,13 @@ if __name__ == "__main__":
 
             # Draw the wheelchair as a circle with text
             draw_wheelchair(wheelchair_x, wheelchair_y, wheelchair_angle)
+            display_voltage_values(arcade_y, arcade_x)
 
             # Update the display
             pygame.display.update()
+            ComputerComms.send_to_rpi((arcade_x), arcade_y)
 
-            # Send the arcade drive values to the computer
-            # ComputerComms.send_to_rpi(arcade_y, arcade_x)
-            print(arcade_y, arcade_x)
+            # print(arcade_y, arcade_x)
 
             # Cap the frame rate
             clock.tick(60)
